@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from sklearn.metrics import root_mean_squared_error, r2_score
 import time
-from AG_class import AG
+from main.AG_class import AG
 
 
 # Nombre generico del dataset
