@@ -34,10 +34,6 @@ class AG:
         
         y_pred = np.sum(coef * X_transformed, axis=1) + constant
         
-        # Verificar NaN y valores infinitos
-        if np.any(np.isnan(y_pred)) or np.any(np.isinf(y_pred)):
-            return float('inf')  # Penalizar con un valor alto si hay NaN o inf
-        
         return mean_squared_error(y, y_pred)
     
     def crossover(self, parent1, parent2):
@@ -46,19 +42,18 @@ class AG:
         child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
         return child1, child2
 
-    def mutate(self, individuo, mutation_rate=0.01):
+    def mutate(self, individuo, mutation_rate=0.1):
         for i in range(len(individuo)):
             if np.random.rand() < mutation_rate:
                 individuo[i] += np.random.randn()
                 
-                # Limitar valores extremos después de la mutación
-                individuo[i] = np.clip(individuo[i], -10, 10)
+
                 
         return individuo
 
     def initialize_population(self, pop_size, ind_size):
         # Limitar valores iniciales
-        return [np.clip(np.random.randn(ind_size), -10, 10) for _ in range(pop_size)]
+        return [np.random.randn(ind_size) for _ in range(pop_size)]
 
     def tournament_selection(self, population, fitnesses, k=3):
         selected = np.random.choice(len(population), k, replace=False)
@@ -100,11 +95,6 @@ class AG:
         X_transformed = np.abs(self.X_test + 1e-10) ** exponents
         
         y_pred = np.sum(coef * X_transformed, axis=1) + constant
-        
-        # Verificar NaN o inf en predicciones finales
-        if np.any(np.isnan(y_pred)) or np.any(np.isinf(y_pred)):
-            print("Warning: NaN or inf detected in predictions")
-            y_pred = np.nan_to_num(y_pred)  # Reemplazar NaN o inf por cero (o cualquier otro valor adecuado)
         
         return best_individuo, y_pred
 

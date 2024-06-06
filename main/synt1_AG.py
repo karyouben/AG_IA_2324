@@ -18,8 +18,8 @@ ag = AG(
     datos_train=nombre_dataset_train,
     datos_test=nombre_dataset_val,
     seed=120,
-    nInd=90,
-    maxIter=1500
+    nInd=100,
+    maxIter=1000
 )
 
 # Ejecucion del AG midiendo el tiempo
