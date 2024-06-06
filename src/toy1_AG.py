@@ -1,21 +1,25 @@
+import os
 import pandas as pd
 from sklearn.metrics import root_mean_squared_error, r2_score
 import time
 from AG_class import AG
 
-# Nombre generico del dataset
-nombre_dataset = 'housing'
 
-nombre_dataset_train = nombre_dataset + "_train.csv"
-nombre_dataset_val = nombre_dataset + "_val.csv"
+# Nombre generico del dataset
+nombre_dataset = 'toy1'
+
+data_folder = 'data'
+
+nombre_dataset_train = os.path.join(data_folder, nombre_dataset + "_train.csv")
+nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")
 
 # La clase AG debe estar implementada
 ag = AG(
     datos_train=nombre_dataset_train,
     datos_test=nombre_dataset_val,
-    seed=123,
-    nInd=1000,
-    maxIter=10000
+    seed=190,
+    nInd=120,
+    maxIter=1500
 )
 
 # Ejecucion del AG midiendo el tiempo
