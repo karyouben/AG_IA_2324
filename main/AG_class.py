@@ -17,7 +17,7 @@ class AG:
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
-        print(data.head())  # Añadir esta línea para imprimir el encabezado y verificar las columnas
+        print(data.describe())  # Imprimir estadísticas descriptivas de los datos
         X = data.drop('y', axis=1).values  # Cambiar 'target' por 'y'
         y = data['y'].values  # Cambiar 'target' por 'y'
         return X, y
