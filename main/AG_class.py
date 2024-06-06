@@ -13,7 +13,8 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.n_features = self.X_train.shape[1] + 1  # Características + intercepto
+        self.n_features = self.X_train.shape[1]  # Número de características (atributos)
+        self.ind_size = self.n_features * 2 + 1  # Tamaño del individuo: coeficientes, exponentes y constante
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
@@ -23,7 +24,20 @@ class AG:
         return X, y
         
     def fitness(self, individuo, X, y):
-        y_pred = np.dot(X, individuo[:-1]) + individuo[-1]
+        n_features = X.shape[1]
+        coef = individuo[:n_features]
+        exponents = individuo[n_features:-1]
+        constant = individuo[-1]
+        
+        # Evitar valores negativos elevados a exponentes no enteros añadiendo una pequeña constante
+        X_transformed = np.abs(X + 1e-10) ** exponents
+        
+        y_pred = np.sum(coef * X_transformed, axis=1) + constant
+        
+        # Verificar NaN y valores infinitos
+        if np.any(np.isnan(y_pred)) or np.any(np.isinf(y_pred)):
+            return float('inf')  # Penalizar con un valor alto si hay NaN o inf
+        
         return mean_squared_error(y, y_pred)
     
     def crossover(self, parent1, parent2):
@@ -36,10 +50,15 @@ class AG:
         for i in range(len(individuo)):
             if np.random.rand() < mutation_rate:
                 individuo[i] += np.random.randn()
+                
+                # Limitar valores extremos después de la mutación
+                individuo[i] = np.clip(individuo[i], -10, 10)
+                
         return individuo
 
-    def initialize_population(self, pop_size, n_features):
-        return [np.random.randn(n_features) for _ in range(pop_size)]
+    def initialize_population(self, pop_size, ind_size):
+        # Limitar valores iniciales
+        return [np.clip(np.random.randn(ind_size), -10, 10) for _ in range(pop_size)]
 
     def tournament_selection(self, population, fitnesses, k=3):
         selected = np.random.choice(len(population), k, replace=False)
@@ -47,7 +66,7 @@ class AG:
         return population[best]
 
     def run(self):
-        population = self.initialize_population(self.nInd, self.n_features)
+        population = self.initialize_population(self.nInd, self.ind_size)
         best_fitness = float('inf')
         best_individuo = None
 
@@ -72,8 +91,29 @@ class AG:
 
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
 
-        y_pred = np.dot(self.X_test, best_individuo[:-1]) + best_individuo[-1]
+        n_features = self.X_test.shape[1]
+        coef = best_individuo[:n_features]
+        exponents = best_individuo[n_features:-1]
+        constant = best_individuo[-1]
+        
+        # Evitar valores negativos elevados a exponentes no enteros añadiendo una pequeña constante
+        X_transformed = np.abs(self.X_test + 1e-10) ** exponents
+        
+        y_pred = np.sum(coef * X_transformed, axis=1) + constant
+        
+        # Verificar NaN o inf en predicciones finales
+        if np.any(np.isnan(y_pred)) or np.any(np.isinf(y_pred)):
+            print("Warning: NaN or inf detected in predictions")
+            y_pred = np.nan_to_num(y_pred)  # Reemplazar NaN o inf por cero (o cualquier otro valor adecuado)
+        
         return best_individuo, y_pred
+
+
+
+
+
+
+
 
 
 
