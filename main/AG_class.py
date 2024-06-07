@@ -1,8 +1,6 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
-
 class AG:
     def __init__(self, datos_train, datos_test, seed=123, nInd=50, maxIter=100):
         self.datos_train = datos_train
