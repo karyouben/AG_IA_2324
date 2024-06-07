@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
+
 class AG:
     def __init__(self, datos_train, datos_test, seed=123, nInd=50, maxIter=100):
         self.datos_train = datos_train
@@ -12,11 +13,11 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.n_features = self.X_train.shape[1] *2 + 1  # Características + intercepto
+        self.n_features = self.X_train.shape[1] *2 + 1  # Características con exponente + intercepto
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
-        print(data.describe())  # Añadir esta línea para imprimir el encabezado y verificar las columnas
+        print(data.describe())  # Añadir esta línea para imprimir una estadistica de los datos
         X = data.drop('y', axis=1).values  # Cambiar 'target' por 'y'
         y = data['y'].values  # Cambiar 'target' por 'y'
         return X, y
