@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
 
 class AG:
     def __init__(self, datos_train, datos_test, seed=123, nInd=50, maxIter=100):
@@ -13,27 +14,20 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.n_features = self.X_train.shape[1]  # Número de características (atributos)
-        self.ind_size = self.n_features * 2 + 1  # Tamaño del individuo: coeficientes, exponentes y constante
+        self.n_features = self.X_train.shape[1] *2 + 1  # Características + intercepto
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
-        print(data.describe())  # Imprimir estadísticas descriptivas de los datos
+        print(data.describe())  # Añadir esta línea para imprimir el encabezado y verificar las columnas
         X = data.drop('y', axis=1).values  # Cambiar 'target' por 'y'
         y = data['y'].values  # Cambiar 'target' por 'y'
         return X, y
         
     def fitness(self, individuo, X, y):
         n_features = X.shape[1]
-        coef = individuo[:n_features]
-        exponents = individuo[n_features:-1]
-        constant = individuo[-1]
+        X_transformed = X ** individuo[n_features:-1]
         
-        # Evitar valores negativos elevados a exponentes no enteros añadiendo una pequeña constante
-        X_transformed = np.abs(X + 1e-10) ** exponents
-        
-        y_pred = np.sum(coef * X_transformed, axis=1) + constant
-        
+        y_pred = np.sum(individuo[:n_features] * X_transformed, axis=1) + individuo[-1]
         return mean_squared_error(y, y_pred)
     
     def crossover(self, parent1, parent2):
@@ -42,18 +36,14 @@ class AG:
         child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
         return child1, child2
 
-    def mutate(self, individuo, mutation_rate=0.1):
+    def mutate(self, individuo, mutation_rate=0.05):
         for i in range(len(individuo)):
             if np.random.rand() < mutation_rate:
                 individuo[i] += np.random.randn()
-                
-
-                
         return individuo
 
-    def initialize_population(self, pop_size, ind_size):
-        # Limitar valores iniciales
-        return [np.random.randn(ind_size) for _ in range(pop_size)]
+    def initialize_population(self, pop_size, n_features):
+        return [np.random.randn(n_features) for _ in range(pop_size)]
 
     def tournament_selection(self, population, fitnesses, k=3):
         selected = np.random.choice(len(population), k, replace=False)
@@ -61,7 +51,7 @@ class AG:
         return population[best]
 
     def run(self):
-        population = self.initialize_population(self.nInd, self.ind_size)
+        population = self.initialize_population(self.nInd, self.n_features)
         best_fitness = float('inf')
         best_individuo = None
 
@@ -85,17 +75,10 @@ class AG:
                 best_individuo = population[np.argmin(fitnesses)]
 
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
+            n_features = self.X_test.shape[1]
+            X_transformed = self.X_test  # Usar las características originales sin aplicar exponentes
 
-        n_features = self.X_test.shape[1]
-        coef = best_individuo[:n_features]
-        exponents = best_individuo[n_features:-1]
-        constant = best_individuo[-1]
-        
-        # Evitar valores negativos elevados a exponentes no enteros añadiendo una pequeña constante
-        X_transformed = np.abs(self.X_test + 1e-10) ** exponents
-        
-        y_pred = np.sum(coef * X_transformed, axis=1) + constant
-        
+            y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
         return best_individuo, y_pred
 
 
