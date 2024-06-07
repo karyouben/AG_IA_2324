@@ -42,7 +42,7 @@ class AG:
         child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
         return child1, child2
 
-    def mutate(self, individuo, mutation_rate=0.1):
+    def mutate(self, individuo, mutation_rate=0.07):
         for i in range(len(individuo)):
             if np.random.rand() < mutation_rate:
                 individuo[i] += np.random.randn()

@@ -7,7 +7,7 @@ from AG_class import AG
 # Nombre generico del dataset
 nombre_dataset = 'housing'
 
-data_folder = r'C:\Users\willi\workspace-VisualStudio\AG_IA_2324\main\data'
+data_folder = "./data/"
 
 nombre_dataset_train = os.path.join(data_folder, nombre_dataset + "_train.csv")
 nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")
@@ -17,8 +17,8 @@ ag = AG(
     datos_train=nombre_dataset_train,
     datos_test=nombre_dataset_val,
     seed=123,
-    nInd=1000,
-    maxIter=200
+    nInd=150,
+    maxIter=100
 )
 
 # Ejecucion del AG midiendo el tiempo
