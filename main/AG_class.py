@@ -75,7 +75,7 @@ class AG:
 
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
             n_features = self.X_test.shape[1]
-            X_transformed = (self.X_test + 1e-10) ** np.round(best_individuo[n_features:-1]).astype(int) # Usar las características originales sin aplicar exponentes
+            X_transformed = (self.X_test + 1e-10) ** np.round(best_individuo[n_features:-1]).astype(int)
 
             y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
         return best_individuo, y_pred
