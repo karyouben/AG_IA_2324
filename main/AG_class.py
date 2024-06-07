@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import mean_squared_error
-
+from sklearn.metrics import mean_squared_error,root_mean_squared_error,mean_absolute_error,r2_score
+from sklearn.preprocessing import RobustScaler
 class AG:
     def __init__(self, datos_train, datos_test, seed=123, nInd=50, maxIter=100):
         self.datos_train = datos_train
@@ -13,14 +13,19 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.n_features = self.X_train.shape[1]  # Número de características (atributos)
-        self.ind_size = self.n_features * 2 + 1  # Tamaño del individuo: coeficientes, exponentes y constante
+        self.n_features = self.X_train.shape[1]
+        self.ind_size = self.n_features * 2 + 1  
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
-        print(data.describe())  # Imprimir estadísticas descriptivas de los datos
-        X = data.drop('y', axis=1).values  # Cambiar 'target' por 'y'
-        y = data['y'].values  # Cambiar 'target' por 'y'
+        Q1 = data.quantile(0.25)
+        Q3 = data.quantile(0.75)
+        IQR = Q3 - Q1
+
+        data = (data - Q1) / IQR
+        print(data.describe())  
+        X = data.drop('y', axis=1).values 
+        y = data['y'].values  
         return X, y
         
     def fitness(self, individuo, X, y):
@@ -28,34 +33,29 @@ class AG:
         coef = individuo[:n_features]
         exponents = individuo[n_features:-1]
         constant = individuo[-1]
-        
-        # Evitar valores negativos elevados a exponentes no enteros añadiendo una pequeña constante
+
         X_transformed = np.abs(X + 1e-10) ** exponents
         
         y_pred = np.sum(coef * X_transformed, axis=1) + constant
         
-        return mean_squared_error(y, y_pred)
-    
+        return  mean_squared_error(y, y_pred)
+        
     def crossover(self, parent1, parent2):
         crossover_point = np.random.randint(1, len(parent1))
         child1 = np.concatenate([parent1[:crossover_point], parent2[crossover_point:]])
         child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
         return child1, child2
 
-    def mutate(self, individuo, mutation_rate=0.07):
+    def mutate(self, individuo, mutation_rate=0.097):
         for i in range(len(individuo)):
             if np.random.rand() < mutation_rate:
                 individuo[i] += np.random.randn()
-                
-
-                
         return individuo
 
     def initialize_population(self, pop_size, ind_size):
-        # Limitar valores iniciales
         return [np.random.randn(ind_size) for _ in range(pop_size)]
 
-    def tournament_selection(self, population, fitnesses, k=3):
+    def tournament_selection(self, population, fitnesses, k=7):
         selected = np.random.choice(len(population), k, replace=False)
         best = selected[np.argmin([fitnesses[i] for i in selected])]
         return population[best]
@@ -96,6 +96,13 @@ class AG:
         
         y_pred = np.sum(coef * X_transformed, axis=1) + constant
         
+        test_rmse = self.fitness(best_individuo, self.X_test, self.y_test)  # Calculate RMSE on the test set
+        test_r2 = r2_score(self.y_test, y_pred)  # Calculating R^2 score
+
+        print(f"Test RMSE: {test_rmse}")
+        print(f"R2 Score on Test Data: {test_r2}")
+
+
         return best_individuo, y_pred
 
 
