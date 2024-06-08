@@ -19,7 +19,7 @@ ag = AG(
     datos_test=nombre_dataset_val,
     seed=120,
     nInd=80,
-    maxIter=1000
+    maxIter=380
 )
 
 # Ejecucion del AG midiendo el tiempo

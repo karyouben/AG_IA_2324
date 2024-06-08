@@ -3,17 +3,20 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error
 
 class AG:
-    def __init__(self, datos_train, datos_test, seed=123, nInd=50, maxIter=100):
+    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.6, mutation_rate=0.05, tournament_size=3):
         self.datos_train = datos_train
         self.datos_test = datos_test
         self.seed = seed
         self.nInd = nInd
         self.maxIter = maxIter
+        self.elitism_rate = elitism_rate
+        self.mutation_rate = mutation_rate
+        self.tournament_size = tournament_size
         np.random.seed(self.seed)
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.n_features = self.X_train.shape[1] *2 + 1 
+        self.n_features = self.X_train.shape[1] * 2 + 1
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
@@ -24,7 +27,7 @@ class AG:
         
     def fitness(self, individuo, X, y):
         n_features = X.shape[1]
-        X_transformed = (X+ 1e-10) ** np.round(individuo[n_features:-1]).astype(int)
+        X_transformed = (X + 1e-10) ** np.round(individuo[n_features:-1]).astype(int)
         
         y_pred = np.sum(individuo[:n_features] * X_transformed, axis=1) + individuo[-1]
         return mean_squared_error(y, y_pred)
@@ -35,19 +38,23 @@ class AG:
         child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
         return child1, child2
 
-    def mutate(self, individuo, mutation_rate=0.05):
+    def mutate(self, individuo):
         for i in range(len(individuo)):
-            if np.random.rand() < mutation_rate:
+            if np.random.rand() < self.mutation_rate:
                 individuo[i] += np.random.randn()
         return individuo
 
     def initialize_population(self, pop_size, n_features):
         return [np.random.randn(n_features) for _ in range(pop_size)]
 
-    def tournament_selection(self, population, fitnesses, k=3):
-        selected = np.random.choice(len(population), k, replace=False)
+    def tournament_selection(self, population, fitnesses):
+        selected = np.random.choice(len(population), self.tournament_size, replace=False)
         best = selected[np.argmin([fitnesses[i] for i in selected])]
         return population[best]
+
+    def elitism_selection(self, population, fitnesses, num_elites):
+        elite_indices = np.argsort(fitnesses)[:num_elites]
+        return [population[i] for i in elite_indices]
 
     def run(self):
         population = self.initialize_population(self.nInd, self.n_features)
@@ -57,8 +64,11 @@ class AG:
         for generation in range(self.maxIter):
             fitnesses = [self.fitness(individuo, self.X_train, self.y_train) for individuo in population]
 
-            new_population = []
-            for _ in range(self.nInd // 2):
+            num_elites = int(self.elitism_rate * self.nInd)
+            elites = self.elitism_selection(population, fitnesses, num_elites)
+
+            new_population = elites.copy()
+            while len(new_population) < self.nInd:
                 parent1 = self.tournament_selection(population, fitnesses)
                 parent2 = self.tournament_selection(population, fitnesses)
                 child1, child2 = self.crossover(parent1, parent2)
@@ -66,7 +76,9 @@ class AG:
                 child2 = self.mutate(child2)
                 new_population.extend([child1, child2])
 
-            population = new_population
+            population = new_population[:self.nInd]
+
+            fitnesses = [self.fitness(individuo, self.X_train, self.y_train) for individuo in population]  # Update fitnesses
 
             current_best_fitness = min(fitnesses)
             if current_best_fitness < best_fitness:
@@ -74,12 +86,11 @@ class AG:
                 best_individuo = population[np.argmin(fitnesses)]
 
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
-            n_features = self.X_test.shape[1]
-            X_transformed = (self.X_test + 1e-10) ** np.round(best_individuo[n_features:-1]).astype(int)
 
-            y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
+        n_features = self.X_test.shape[1]
+        X_transformed = (self.X_test + 1e-10) ** np.round(best_individuo[n_features:-1]).astype(int)
+        y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
         return best_individuo, y_pred
-
 
 
 
