@@ -13,13 +13,13 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.n_features = self.X_train.shape[1] *2 + 1  # Características con exponente + intercepto
+        self.n_features = self.X_train.shape[1] *2 + 1 
         
     def load_data(self, filename):
         data = pd.read_csv(filename)
-        print(data.describe())  # Añadir esta línea para imprimir una estadistica de los datos
-        X = data.drop('y', axis=1).values  # Cambiar 'target' por 'y'
-        y = data['y'].values  # Cambiar 'target' por 'y'
+        print(data.describe())  # imprime una estadistica de los datos al inicio
+        X = data.drop('y', axis=1).values
+        y = data['y'].values  
         return X, y
         
     def fitness(self, individuo, X, y):
