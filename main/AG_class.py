@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error
 
 class AG:
-    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.6, mutation_rate=0.05, tournament_size=3):
+    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.6, mutation_rate=0.05, tournament_size=3, crossover_rate=0.72):
         self.datos_train = datos_train
         self.datos_test = datos_test
         self.seed = seed
@@ -12,6 +12,7 @@ class AG:
         self.elitism_rate = elitism_rate
         self.mutation_rate = mutation_rate
         self.tournament_size = tournament_size
+        self.crossover_rate = crossover_rate
         np.random.seed(self.seed)
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
@@ -33,9 +34,12 @@ class AG:
         return mean_squared_error(y, y_pred)
     
     def crossover(self, parent1, parent2):
-        crossover_point = np.random.randint(1, len(parent1))
-        child1 = np.concatenate([parent1[:crossover_point], parent2[crossover_point:]])
-        child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
+        if np.random.rand() < self.crossover_rate:
+            crossover_point = np.random.randint(1, len(parent1))
+            child1 = np.concatenate([parent1[:crossover_point], parent2[crossover_point:]])
+            child2 = np.concatenate([parent2[:crossover_point], parent1[crossover_point:]])
+        else:
+            child1, child2 = parent1.copy(), parent2.copy()
         return child1, child2
 
     def mutate(self, individuo):

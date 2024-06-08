@@ -18,7 +18,7 @@ ag = AG(
     datos_train=nombre_dataset_train,
     datos_test=nombre_dataset_val,
     seed=120,
-    nInd=80,
+    nInd=100,
     maxIter=380
 )
 
