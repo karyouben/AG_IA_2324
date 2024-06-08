@@ -8,7 +8,7 @@ from AG_class import AG
 # Nombre generico del dataset
 nombre_dataset = 'toy1'
 
-data_folder = "./data/"
+data_folder = "./main/data/"
 
 nombre_dataset_train = os.path.join(data_folder, nombre_dataset + "_train.csv")
 nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")
