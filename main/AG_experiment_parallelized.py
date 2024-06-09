@@ -58,7 +58,7 @@ def main():
         'tournament_size': [2, 3, 5],
         'crossover_rate': [0.6, 0.72, 0.85]
     }
-    data_folder = "./main/data"
+    data_folder = "./data"
     dataset_name = 'synt1'
     results_folder = "./results"
 
