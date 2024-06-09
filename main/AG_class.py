@@ -14,6 +14,7 @@ class AG:
         self.tournament_size = tournament_size
         self.crossover_rate = crossover_rate
         np.random.seed(self.seed)
+        self.fitness_history = []
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
@@ -85,6 +86,7 @@ class AG:
             fitnesses = [self.fitness(individuo, self.X_train, self.y_train) for individuo in population]  # Update fitnesses
 
             current_best_fitness = min(fitnesses)
+            self.fitness_history.append(current_best_fitness) 
             if current_best_fitness < best_fitness:
                 best_fitness = current_best_fitness
                 best_individuo = population[np.argmin(fitnesses)]
