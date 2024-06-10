@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import MinMaxScaler
 
 class AG:
-    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.1, mutation_rate=0.1, tournament_size=5, crossover_rate=0.85):
+    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.1, mutation_rate=0.1, tournament_size=9, crossover_rate=0.9):
         self.datos_train = datos_train
         self.datos_test = datos_test
         self.seed = seed
@@ -15,6 +16,7 @@ class AG:
         self.crossover_rate = crossover_rate
         np.random.seed(self.seed)
         self.fitness_history = []
+        
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
@@ -29,7 +31,9 @@ class AG:
         
     def fitness(self, individuo, X, y):
         n_features = X.shape[1]
-        X_transformed = (X + 1e-10) ** np.round(individuo[n_features:-1]).astype(int)
+        negative_mask = X < 0
+        exponents = np.where(negative_mask, np.round(individuo[n_features:-1]).astype(int), individuo[n_features:-1])
+        X_transformed = (X + 1e-10) ** exponents
         
         y_pred = np.sum(individuo[:n_features] * X_transformed, axis=1) + individuo[-1]
         return mean_squared_error(y, y_pred)
@@ -94,10 +98,11 @@ class AG:
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
 
         n_features = self.X_test.shape[1]
-        X_transformed = (self.X_test + 1e-10) ** np.round(best_individuo[n_features:-1]).astype(int)
+        negative_mask = self.X_test < 0
+        exponents = np.where(negative_mask, np.round(best_individuo[n_features:-1]).astype(int), best_individuo[n_features:-1])
+        X_transformed = (self.X_test + 1e-10) ** exponents
         y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
         return best_individuo, y_pred
-
 
 
 

@@ -51,15 +51,15 @@ def main():
         print("Master process initializing the job distribution.")
 
     param_grid = {
-        'nInd': [80, 100],
+        'nInd': [100],
         'maxIter': [150],
         'mutation_rate': [0.01, 0.05, 0.1, 0.2],
         'elitism_rate': [0.05, 0.1, 0.15, 0.2],
-        'tournament_size': [2, 3, 5, 7, 9],
+        'tournament_size': [3, 5, 7, 9, 10, 12],
         'crossover_rate': [0.6, 0.72, 0.85, 0.9, 0.95]
     }
     data_folder = "./data"
-    dataset_name = 'housing'
+    dataset_name = 'synt1'
     results_folder = "./results"
 
     if not os.path.exists(results_folder):
