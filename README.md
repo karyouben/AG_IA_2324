@@ -5,38 +5,14 @@ Este proyecto implementa un Algoritmo Genético (AG) para optimizar modelos de r
 
 ## Estructura del Proyecto
 
-AG_IA_2324/
-│
-├── main/
-│ ├── data/
-│ │ ├── housing_train.csv
-│ │ ├── housing_val.csv
-│ │ ├── synt1_train.csv
-│ │ ├── synt1_val.csv
-│ │ ├── toy1_train.csv
-│ │ └── toy1_val.csv
-│ │
-│ ├── experiment/
-│ │ ├── results/
-│ │ ├── results_summary/
-│ │ ├── results_summary_excel/
-│ │ ├── AG_experiment_housing_parallelized.py
-│ │ ├── AG_experiment_synt1_parallelized.py
-│ │ └── AG_experiment_toy1_parallelized.py
-│ │
-│ ├── AG_class.py
-│ ├── AG_experiment_parallelized.py
-│ ├── housing_AG.py
-│ ├── synt1_AG.py
-│ └── toy1_AG.py
-│
-└── README.md
+![Estructura del Proyecto](https://i.ibb.co/S6VByT3/Captura-de-pantalla-2024-06-10-231136.png)
+
 
 
 
 ## Descripción de los Directorios y Archivos
 
-### main/
+#### main/
 Directorio principal que contiene todos los scripts y datos necesarios para ejecutar el Algoritmo Genético.
 
 #### main/data/
