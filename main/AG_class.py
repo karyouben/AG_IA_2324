@@ -29,7 +29,9 @@ class AG:
         
     def fitness(self, individuo, X, y):
         n_features = X.shape[1]
-        X_transformed = (X + 1e-10) ** np.round(individuo[n_features:-1]).astype(int)
+        negative_mask = X < 0
+        exponents = np.where(negative_mask, np.round(individuo[n_features:-1]).astype(int), individuo[n_features:-1])
+        X_transformed = (X + 1e-10) ** exponents
         
         y_pred = np.sum(individuo[:n_features] * X_transformed, axis=1) + individuo[-1]
         return mean_squared_error(y, y_pred)
@@ -94,7 +96,9 @@ class AG:
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
 
         n_features = self.X_test.shape[1]
-        X_transformed = (self.X_test + 1e-10) ** np.round(best_individuo[n_features:-1]).astype(int)
+        negative_mask = self.X_test < 0
+        exponents = np.where(negative_mask, np.round(best_individuo[n_features:-1]).astype(int), best_individuo[n_features:-1])
+        X_transformed = (self.X_test + 1e-10) ** exponents
         y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
         return best_individuo, y_pred
 
