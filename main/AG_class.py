@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error
 
 class AG:
-    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.1, mutation_rate=0.1, tournament_size=3, crossover_rate=0.85):
+    def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.1, mutation_rate=0.1, tournament_size=5, crossover_rate=0.85):
         self.datos_train = datos_train
         self.datos_test = datos_test
         self.seed = seed

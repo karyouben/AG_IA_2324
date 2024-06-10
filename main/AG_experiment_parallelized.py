@@ -59,7 +59,7 @@ def main():
         'crossover_rate': [0.6, 0.72, 0.85, 0.9, 0.95]
     }
     data_folder = "./data"
-    dataset_name = 'synt1'
+    dataset_name = 'housing'
     results_folder = "./results"
 
     if not os.path.exists(results_folder):
