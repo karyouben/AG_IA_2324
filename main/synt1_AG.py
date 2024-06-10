@@ -17,8 +17,8 @@ nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")
 ag = AG(
     datos_train=nombre_dataset_train,
     datos_test=nombre_dataset_val,
-    seed=123,
-    nInd=80,
+    seed=32,
+    nInd=85,
     maxIter=150
 )
 
