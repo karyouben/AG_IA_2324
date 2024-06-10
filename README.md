@@ -145,7 +145,7 @@ Las contribuciones son bienvenidas. Por favor, sigue los pasos a continuación p
 4º Sube tus cambios a tu fork (git push origin feature/nueva-funcionalidad).
 
 5º Crea un nuevo Pull Request.
-hehe
+
 ## Licencia
 
 Este proyecto está licenciado bajo los términos de la licencia MIT. Para más información, ver el archivo LICENSE.
