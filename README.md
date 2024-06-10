@@ -76,9 +76,12 @@ siendo X el numero de hilos que quieras pararelizar la ejecución como por ejemp
    `mpiexec -n 4 python AG_experiment_parallelized.py`
 
 para ejecutar nuevos datos modificar `dataset_name`, `dataset_val`, `dataset_train`, por ejemplo:
+
     
    dataset_name = 'housing'
+
    dataset_train = os.path.join(data_folder, dataset_name + "_train.csv")
+
    dataset_val = os.path.join(data_folder, dataset_name + "_val.csv")
 
 para modificar los hyperparametros basta con cambiar los valores del `param_grid`, por ejemplo:
@@ -95,11 +98,13 @@ para modificar los hyperparametros basta con cambiar los valores del `param_grid
  una vez ejecutado se generara una grafica por cada combinacion de hyperparametros y finalmente se generara un txt con todas las combinaciones de hyperparametros junto con su RMSE, R2 y tiempo de ejecución.
 
 #### Resultados
+
 Los resultados de los experimentos se guardarán en los directorios results/ y results_summary/ dentro del directorio experiment/ si se ejecuta `AG_experiment_housing_parallelized.py`, `AG_experiment_synt1_parallelized.py`, `AG_experiment_toy1_parallelized.py`
 
 Los resultados de los experimentos se guardarán en los directorios results/ y en el main(el archivo txt) dentro del directorio main\ si se ejecuta `AG_experiment_parallelized.py`
 
 ## Ejecución del algoritmo
+
 El algoritmo se ejecuta en los siguientes ficheros según los datos que se quieran ejecutar
 - `housing_AG.py`: Script para ejecutar el AG en el conjunto de datos de housing.
 - `synt1_AG.py`: Script para ejecutar el AG en el conjunto de datos synt1.
@@ -120,8 +125,11 @@ ag = AG(
 
 para ejecutar nuevos datos modificar `nombre_dataset`, `nombre_dataset_train`, `nombre_dataset_val`, por ejemplo:
 
+
    nombre_dataset = 'synt1'
+
    nombre_dataset_train = os.path.join(data_folder, nombre_dataset + "_train.csv")
+
    nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")
 
 ## Contribuciones
