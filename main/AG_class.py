@@ -20,9 +20,6 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
-        self.scaler = MinMaxScaler()
-        self.X_train = self.scaler.fit_transform(self.X_train)
-        self.X_test = self.scaler.transform(self.X_test)
         self.n_features = self.X_train.shape[1] * 2 + 1
         
     def load_data(self, filename):
