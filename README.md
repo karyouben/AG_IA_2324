@@ -129,9 +129,13 @@ para ejecutar nuevos datos modificar `nombre_dataset`, `nombre_dataset_train`, `
 Las contribuciones son bienvenidas. Por favor, sigue los pasos a continuación para contribuir:
 
 1º Haz un fork del proyecto.
+
 2º Crea una rama con tu nueva funcionalidad (git checkout -b feature/nueva-funcionalidad).
+
 3º Haz commit de tus cambios (git commit -am 'Añadir nueva funcionalidad').
+
 4º Sube tus cambios a tu fork (git push origin feature/nueva-funcionalidad).
+
 5º Crea un nuevo Pull Request.
 
 ## Licencia
