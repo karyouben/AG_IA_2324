@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 
@@ -20,6 +21,7 @@ class AG:
         
         self.X_train, self.y_train = self.load_data(self.datos_train)
         self.X_test, self.y_test = self.load_data(self.datos_test)
+
         self.n_features = self.X_train.shape[1] * 2 + 1
         
     def load_data(self, filename):
@@ -31,6 +33,7 @@ class AG:
         
     def fitness(self, individuo, X, y):
         n_features = X.shape[1]
+        
         negative_mask = X < 0
         exponents = np.where(negative_mask, np.round(individuo[n_features:-1]).astype(int), individuo[n_features:-1])
         X_transformed = (X + 1e-10) ** exponents
@@ -47,11 +50,13 @@ class AG:
             child1, child2 = parent1.copy(), parent2.copy()
         return child1, child2
 
+
     def mutate(self, individuo):
         for i in range(len(individuo)):
             if np.random.rand() < self.mutation_rate:
                 individuo[i] += np.random.randn()
         return individuo
+
 
     def initialize_population(self, pop_size, n_features):
         return [np.random.randn(n_features) for _ in range(pop_size)]
@@ -98,10 +103,12 @@ class AG:
             print(f"Generation {generation}: Best Fitness = {best_fitness}")
 
         n_features = self.X_test.shape[1]
+
         negative_mask = self.X_test < 0
         exponents = np.where(negative_mask, np.round(best_individuo[n_features:-1]).astype(int), best_individuo[n_features:-1])
         X_transformed = (self.X_test + 1e-10) ** exponents
         y_pred = np.sum(best_individuo[:n_features] * X_transformed, axis=1) + best_individuo[-1]
+
         return best_individuo, y_pred
 
 
