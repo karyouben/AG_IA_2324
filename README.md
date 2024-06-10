@@ -13,15 +13,18 @@ Este proyecto implementa un Algoritmo Genético (AG) para optimizar modelos de r
 ## Descripción de los Directorios y Archivos
 
 #### main/
+
 Directorio principal que contiene todos los scripts y datos necesarios para ejecutar el Algoritmo Genético.
 
 #### main/data/
+
 Contiene los conjuntos de datos utilizados en los experimentos:
 - `housing_train.csv` y `housing_val.csv`: Datos de entrenamiento y validación para el conjunto de datos de housing.
 - `synt1_train.csv` y `synt1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos sintético 1.
 - `toy1_train.csv` y `toy1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos toy 1.
 
 #### main/experiment/
+
 Contiene los scripts de experimentos y los resultados generados:
 - `__pycache__/`: Archivos caché generados por Python.
 - `results/`: Directorio donde se guardan los resultados de los experimentos.
@@ -33,11 +36,13 @@ Contiene los scripts de experimentos y los resultados generados:
 - `AG_experiment_parallelized.py`: Script genérico para ejecutar el AG de forma paralelizada en diferentes conjuntos de datos. (requiere modificarlo, explicado mas adelante)
 
 #### Scripts para ejecucion del algoritmo
+
 - `housing_AG.py`: Script para ejecutar el AG en el conjunto de datos de housing.
 - `synt1_AG.py`: Script para ejecutar el AG en el conjunto de datos synt1.
 - `toy1_AG.py`: Script para ejecutar el AG en el conjunto de datos toy1.
 
 #### Clase del Algoritmo Genético
+
 - `AG_class.py`: Contiene la implementación de la clase AG que define el Algoritmo Genético utilizado en los experimentos.
 
 ## Uso del Proyecto
@@ -50,6 +55,7 @@ Contiene los scripts de experimentos y los resultados generados:
 
 ## Ejecución de Experimentos
 ### Ejecución de la busqueda en rejilla de hyperparametros de forma paralelizada
+
 Para ejecutar el AG en el conjunto de datos de housing de forma paralelizada:
 
 Para ejecutar `AG_experiment_parallelized.py` primero:
@@ -59,7 +65,7 @@ Para ejecutar `AG_experiment_housing_parallelized.py`, `AG_experiment_synt1_para
 
    `cd AG_IA_2324`
 
-(si no queremos pararelizarlo ejecutarlo sin meter nincun comando)
+(si no queremos pararelizarlo ejecutarlo sin meter ningún comando)
 
 Si ejecutamos `AG_experiment_parallelized.py` de forma pararelizada debemos usar el siguiente comando en el directorio mencionado anteriormente:
 
@@ -71,20 +77,20 @@ siendo X el numero de hilos que quieras pararelizar la ejecución como por ejemp
 
 para ejecutar nuevos datos modificar `dataset_name`, `dataset_val`, `dataset_train`, por ejemplo:
     
-    dataset_name = 'housing'
-    dataset_train = os.path.join(data_folder, dataset_name + "_train.csv")
-    dataset_val = os.path.join(data_folder, dataset_name + "_val.csv")
+   `dataset_name = 'housing'`
+   `dataset_train = os.path.join(data_folder, dataset_name + "_train.csv")`
+   `dataset_val = os.path.join(data_folder, dataset_name + "_val.csv")`
 
 para modificar los hyperparametros basta con cambiar los valores del `param_grid`, por ejemplo:
 
-    param_grid = {
-        'nInd': [100],
-        'maxIter': [150],
-        'mutation_rate': [0.01, 0.05, 0.1, 0.2],
-        'elitism_rate': [0.05, 0.1, 0.15, 0.2],
-        'tournament_size': [3, 5, 7, 9, 10, 12],
-        'crossover_rate': [0.6, 0.72, 0.85, 0.9, 0.95]
-    }
+   ` param_grid = {`
+        `'nInd': [100],`
+        `'maxIter': [150],`
+        `'mutation_rate': [0.01, 0.05, 0.1, 0.2],`
+        `'elitism_rate': [0.05, 0.1, 0.15, 0.2],`
+        `'tournament_size': [3, 5, 7, 9, 10, 12],`
+        `'crossover_rate': [0.6, 0.72, 0.85, 0.9, 0.95]`
+    `}`
 
  una vez ejecutado se generara una grafica por cada combinacion de hyperparametros y finalmente se generara un txt con todas las combinaciones de hyperparametros junto con su RMSE, R2 y tiempo de ejecución.
 
@@ -104,19 +110,19 @@ Para ejecutarlos primero:
 
 Podemos modificar dentro de estos archivos la semilla(seed), el numero de individuos(nInd) y el numero de iteraciones(maxIter):
 
-ag = AG(
-    datos_train=nombre_dataset_train,
-    datos_test=nombre_dataset_val,
-    seed=123,
-    nInd=100,
-    maxIter=150
+`ag = AG(`
+    `datos_train=nombre_dataset_train,`
+    `datos_test=nombre_dataset_val,`
+    `seed=123,`
+    `nInd=100,`
+    `maxIter=150`
 )
 
 para ejecutar nuevos datos modificar `nombre_dataset`, `nombre_dataset_train`, `nombre_dataset_val`, por ejemplo:
 
-   nombre_dataset = 'synt1'
-   nombre_dataset_train = os.path.join(data_folder, nombre_dataset + "_train.csv")
-   nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")
+   `nombre_dataset = 'synt1'`
+   `nombre_dataset_train = os.path.join(data_folder, nombre_dataset + "_train.csv")`
+   `nombre_dataset_val = os.path.join(data_folder, nombre_dataset + "_val.csv")`
 
 ## Contribuciones
 
