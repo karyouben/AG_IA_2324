@@ -7,6 +7,8 @@ import itertools
 from sklearn.metrics import root_mean_squared_error, r2_score
 from AG_class import AG
 
+#SOLO PARA ESTE ARCHIVO SI SE QUIERE EJECUTAR SE DEBE METER EN EL DIRECTORIO MAIN "cd .\main" para poder hacer uso del comando de paralelización 
+# el resto de archivos se ejecutan desde el directorio raiz \AG_IA_2324
 def run_experiment(params, data_folder, dataset_name, results_folder):
     dataset_train = os.path.join(data_folder, dataset_name + "_train.csv")
     dataset_val = os.path.join(data_folder, dataset_name + "_val.csv")
