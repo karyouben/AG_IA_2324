@@ -20,8 +20,9 @@ Directorio principal que contiene todos los scripts y datos necesarios para ejec
 
 Contiene los conjuntos de datos utilizados en los experimentos:
 - `housing_train.csv` y `housing_val.csv`: Datos de entrenamiento y validación para el conjunto de datos de housing.
-- `synt1_train.csv` y `synt1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos sintético 1.
-- `toy1_train.csv` y `toy1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos toy 1.
+- `synt1_train.csv` y `synt1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos synt1.
+- `toy1_train.csv` y `toy1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos toy1.
+- `AG_experiment_parallelized.py`: Script genérico para ejecutar el AG de forma paralelizada en diferentes conjuntos de datos. (requiere modificarlo, explicado mas adelante)
 
 #### main/experiment/
 
@@ -30,10 +31,19 @@ Contiene los scripts de experimentos y los resultados generados:
 - `results/`: Directorio donde se guardan los resultados de los experimentos.
 - `results_summary/`: Directorio donde se guardan los resúmenes de los resultados en formato de texto.
 - `results_summary_excel/`: Directorio donde se guardan los resúmenes de los resultados en formato Excel.
-- `AG_experiment_housing_parallelized.py`: Script para ejecutar el AG en el conjunto de datos de housing de forma paralelizada.
-- `AG_experiment_synt1_parallelized.py`: Script para ejecutar el AG en el conjunto de datos synt1 de forma paralelizada.
-- `AG_experiment_toy1_parallelized.py`: Script para ejecutar el AG en el conjunto de datos toy 1 de forma paralelizada.
-- `AG_experiment_parallelized.py`: Script genérico para ejecutar el AG de forma paralelizada en diferentes conjuntos de datos. (requiere modificarlo, explicado mas adelante)
+- `AG_experiment_housing_parallelized.py`: Script para ejecutar el AG en el conjunto de datos de housing de forma paralelizada o sin pararelizar.
+- `AG_experiment_synt1_parallelized.py`: Script para ejecutar el AG en el conjunto de datos synt1 de forma paralelizada o sin pararelizar.
+- `AG_experiment_toy1_parallelized.py`: Script para ejecutar el AG en el conjunto de datos toy 1 de forma paralelizadao o sin pararelizar.
+
+Dentro de los contenidos `results/`, `results_summary/` y `results_summary_excel/` hay 4 tipos de terminaciones que indican el tipo de experimento realizado:
+
+1º terminados en "..results" y "..sumary" indican experimentación haciendo que la función fitness siempre aproxime a un número entero su exponente.
+
+2º terminados en "..results2" y "..sumary2" indican experimentación haciendo que la función fitness aproxime a un número entero el exponente si la base es negativa.
+
+3º terminados en "..results_norm" y "..sumary_norm" indican experimentación con el conjunto de datos normalizado.
+
+4º terminados en "..results3" y "..sumary3" indican experimentación haciendo que la función fitness aproxime a un número entero el exponente si la base es negativa, pero con un mayor abanico de hyperparametros.
 
 #### Scripts para ejecucion del algoritmo
 
