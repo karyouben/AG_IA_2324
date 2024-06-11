@@ -8,6 +8,7 @@ from sklearn.metrics import root_mean_squared_error, r2_score
 from AG_class import AG
 
 #SOLO PARA ESTE ARCHIVO SI SE QUIERE EJECUTAR SE DEBE METER EN EL DIRECTORIO MAIN "cd .\main" para poder hacer uso del comando de paralelización (mas detalles ver readme)
+#Este archivo solo es para experimentación de busqueda de hyperparametros por busqueda en rejilla
 # el resto de archivos se ejecutan desde el directorio raiz \AG_IA_2324
 def run_experiment(params, data_folder, dataset_name, results_folder):
     dataset_train = os.path.join(data_folder, dataset_name + "_train.csv")
