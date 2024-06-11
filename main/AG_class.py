@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import MinMaxScaler
 
 class AG:
     def __init__(self, datos_train, datos_test, seed=123, nInd=80, maxIter=200, elitism_rate=0.1, mutation_rate=0.1, tournament_size=9, crossover_rate=0.9):
