@@ -23,6 +23,7 @@ Contiene los conjuntos de datos utilizados en los experimentos:
 - `synt1_train.csv` y `synt1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos synt1.
 - `toy1_train.csv` y `toy1_val.csv`: Datos de entrenamiento y validación para el conjunto de datos toy1.
 - `AG_experiment_parallelized.py`: Script genérico para ejecutar el AG de forma paralelizada en diferentes conjuntos de datos. (requiere modificarlo, explicado mas adelante)
+- - `AG_class.py`: Contiene la implementación de la clase AG que define el Algoritmo Genético utilizado en los experimentos.
 
 #### main/experiment/
 
