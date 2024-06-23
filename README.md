@@ -1,5 +1,5 @@
 
-# Proyecto AG_IA_2324
+# Optimización de modelos predictivos mediante algoritmos genéticos.
 
 Este proyecto implementa un Algoritmo Genético (AG) para optimizar modelos de regresión utilizando diferentes conjuntos de datos. El proyecto está organizado de la siguiente manera:
 
